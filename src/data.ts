@@ -168,6 +168,39 @@ export const translations: Record<Lang, Translation> = {
             project: 'https://ardis-wood3d.vercel.app/',
           },
         },
+        {
+          n: '02',
+          title: 'Motor gráfico',
+          desc: 'Motor gráfico 3D hecho por mi con C++',
+          longDesc:
+              'Motor gráfico 3D hecho por mi con C++',
+          features: [
+            'Real-time 3D furniture configuration',
+            'User-driven design and customization',
+            'Embeddable into your online store',
+            'Integration with third-party software for factory orders',
+          ],
+          tech: ['C++'],
+          links: {
+          },
+        },
+        {
+          n: '03',
+          title: 'Presupestador con IA',
+          desc: 'Presupuestador con IA, hecho con flutter.',
+          longDesc:
+              'Presupuestador con IA, hecho con flutter.',
+          features: [
+            'Real-time 3D furniture configuration',
+            'User-driven design and customization',
+            'Embeddable into your online store',
+            'Integration with third-party software for factory orders',
+          ],
+          tech: ['Flutter'],
+          links: {
+          },
+        },
+
       ],
       games: {
         title: 'Videojuegos',
@@ -315,6 +348,38 @@ export const translations: Record<Lang, Translation> = {
           cover: '/images/carpentry-project-BG.png',
           links: {
             project: 'https://ardis-wood3d.vercel.app/',
+          },
+        },
+        {
+          n: '02',
+          title: 'Game engine',
+          desc: '3D Game engine made by myself with C++.',
+          longDesc:
+              '3D Game engine made by myself with C++.',
+          features: [
+            'Real-time 3D furniture configuration',
+            'User-driven design and customization',
+            'Embeddable into your online store',
+            'Integration with third-party software for factory orders',
+          ],
+          tech: ['C++'],
+          links: {
+          },
+        },
+        {
+          n: '03',
+          title: 'Budgeter with AI',
+          desc: 'Budgeter with AI, made with flutter.',
+          longDesc:
+              'Budgeter with AI, made with flutter.',
+          features: [
+            'Real-time 3D furniture configuration',
+            'User-driven design and customization',
+            'Embeddable into your online store',
+            'Integration with third-party software for factory orders',
+          ],
+          tech: ['Flutter'],
+          links: {
           },
         },
       ],

@@ -1037,3 +1037,73 @@ footer {
   gap: 12px;
   margin-top: 2px;
 }
+
+/* Games special card */
+.games-card {
+  width: 100%;
+  margin-top: 24px;
+  padding: 22px clamp(20px, 3vw, 28px);
+  border-radius: 18px;
+  background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--accent3) 18%, transparent),
+      transparent 60%
+    ),
+    var(--surface);
+  border: 1px solid var(--border);
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.games-card-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 220px;
+}
+.games-icon {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent3), var(--accent2));
+  box-shadow: 0 12px 30px -12px var(--glow);
+}
+.games-title {
+  font-family: var(--headFont), monospace;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+.games-subtitle {
+  color: var(--dim);
+  font-size: 14px;
+  margin: 4px 0 0;
+}
+.games-chevron {
+  flex: none;
+  color: var(--accent);
+  transition: transform 0.3s ease;
+}
+.games-card-open .games-chevron {
+  transform: rotate(180deg);
+}
+.games-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.games-grid {
+  margin-top: 22px;
+  animation: sectionIn 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}

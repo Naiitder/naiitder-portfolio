@@ -8,6 +8,19 @@ export type TabId =
   | 'experience'
   | 'contact'
 
+export interface ProjectItem {
+  n: string
+  title: string
+  desc: string
+  tech: string[]
+  cover?: string
+  gallery?: string[]
+  video?: string
+  longDesc?: string
+  features?: string[]
+  links?: { demo?: string; code?: string; project?: string }
+}
+
 export interface Translation {
   tabs: { id: TabId; label: string }[]
   hero: {
@@ -37,18 +50,14 @@ export interface Translation {
     featuresLabel: string
     galleryLabel: string
     videoLabel: string
-    items: {
-      n: string
+    items: ProjectItem[]
+    games: {
       title: string
-      desc: string
-      tech: string[]
-      cover?: string
-      gallery?: string[]
-      video?: string
-      longDesc?: string
-      features?: string[]
-      links?: { demo?: string; code?: string; project?: string }
-    }[]
+      subtitle: string
+      itchLabel: string
+      portfolioLabel: string
+      items: ProjectItem[]
+    }
   }
   skills: {
     eyebrow: string
@@ -85,6 +94,8 @@ export const LINKS = {
   github: 'https://github.com/Naiitder',
   linkedin: 'https://www.linkedin.com/in/raul-junquera-abellan/',
   email: 'raul.junquera.abellan@cieep.com',
+  itch: 'https://naitder.itch.io/',
+  vimeo: 'https://vimeo.com/',
 } as const
 
 // Single source of truth for assets/images — change once, applies to ES and EN.
@@ -158,6 +169,34 @@ export const translations: Record<Lang, Translation> = {
           },
         },
       ],
+      games: {
+        title: 'Videojuegos',
+        subtitle: 'Mis proyectos de desarrollo de videojuegos.',
+        itchLabel: 'itch.io',
+        portfolioLabel: 'Video portfolio',
+        items: [
+          {
+            n: 'G1',
+            title: 'Michi-Mechanika',
+            desc: 'Michi-Mechanika es un videojuego realizado en Unity basado en puzzles y basado en turnos, en una perspectiva 3D isometrica.',
+            tech: ['Unity', 'C#'],
+            links: {
+              demo: 'https://github.com/Naiitder/Michi-Mechanika',
+              code: 'https://github.com/Naiitder/Michi-Mechanika',
+            }
+          },
+          {
+            n: 'G2',
+            title: 'Siege Of Shadows',
+            desc: 'Siege of shadows es un videojuego hecho con Unity basado en el famoso titulo Vampire Survivors, con una perspectiva 2D.',
+            tech: ['Unity', 'C#'],
+            links: {
+              demo: 'https://github.com/Naiitder/SiegeOfShadows',
+              code: 'https://github.com/Naiitder/SiegeOfShadows',
+            }
+          },
+        ],
+      },
     },
     skills: {
       eyebrow: 'Stack',
@@ -279,6 +318,35 @@ export const translations: Record<Lang, Translation> = {
           },
         },
       ],
+      games: {
+        title: 'Videogames',
+        subtitle: 'My game development projects.',
+        itchLabel: 'itch.io',
+        portfolioLabel: 'Video portfolio',
+        items: [
+          {
+            n: 'G1',
+            title: 'Michi-Mechanika',
+            desc: 'Michi-Mechanika its a videogame developed with Unity centered in puzzles and turn based, with a 3D isometric view.',
+            tech: ['Unity', 'C#'],
+            links: {
+              demo: 'https://github.com/Naiitder/Michi-Mechanika',
+              code: 'https://github.com/Naiitder/Michi-Mechanika',
+            }
+          },
+          {
+            n: 'G2',
+            title: 'Siege Of Shadows',
+            desc: 'Siege of shadows its a videogame made with Unity based in the popular game Vampire Survivors, with a 2D perspective.',
+            tech: ['Unity', 'C#'],
+            links: {
+              demo: 'https://github.com/Naiitder/SiegeOfShadows',
+              code: 'https://github.com/Naiitder/SiegeOfShadows',
+            }
+          },
+
+        ],
+      },
     },
     skills: {
       eyebrow: 'Stack',

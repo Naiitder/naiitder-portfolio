@@ -7,6 +7,7 @@ import {
   CV_FILES,
   type Lang,
   type TabId,
+  type ProjectItem,
 } from './data'
 import './App.css'
 
@@ -77,6 +78,46 @@ const CheckIcon = () => (
   </svg>
 )
 
+const GamepadIcon = ({ size = 17 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 11h4M8 9v4M15 12h.01M18 10h.01" />
+    <rect x="2" y="6" width="20" height="12" rx="4" />
+  </svg>
+)
+
+const VideoIcon = ({ size = 17 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="m22 8-6 4 6 4V8z" />
+    <rect x="2" y="6" width="14" height="12" rx="2" />
+  </svg>
+)
+
+function ProjectCard({ p, onOpen, cta }: { p: ProjectItem; onOpen: () => void; cta: string }) {
+  return (
+    <button type="button" className="card card-clickable" onClick={onOpen}>
+      <div className="card-cover">
+        {p.cover ? <img src={p.cover} alt={p.title} /> : <div className="card-cover-empty" />}
+        <span className="card-badge">{p.n}</span>
+      </div>
+      <div className="card-body">
+        <h3 className="card-title">{p.title}</h3>
+        <p className="card-desc">{p.desc}</p>
+        <div className="tech-row">
+          {p.tech.map((tech) => (
+            <span className="tech" key={tech}>
+              {tech}
+            </span>
+          ))}
+        </div>
+        <span className="card-cta">
+          {cta}
+          <span className="card-cta-arrow">→</span>
+        </span>
+      </div>
+    </button>
+  )
+}
+
 const BriefcaseIcon = () => (
   <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
     <rect x="2" y="7" width="20" height="14" rx="2" />
@@ -137,7 +178,7 @@ function CvDownload({ t }: { t: (typeof translations)[Lang] }) {
 
 function App({ lang }: { lang: Lang }) {
   const [tab, setTab] = useState<TabId>('home')
-  const [openProject, setOpenProject] = useState<number | null>(null)
+  const [op, setOp] = useState<ProjectItem | null>(null)
   const navigate = useNavigate()
 
   const t = translations[lang]
@@ -145,12 +186,10 @@ function App({ lang }: { lang: Lang }) {
   const year = new Date().getFullYear()
   const toggleLang = () => navigate(isES ? '/en' : '/es')
 
-  const op = openProject != null ? t.projects.items[openProject] : null
-
   useEffect(() => {
     if (op == null) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpenProject(null)
+      if (e.key === 'Escape') setOp(null)
     }
     document.addEventListener('keydown', onKey)
     document.body.style.overflow = 'hidden'
@@ -280,37 +319,46 @@ function App({ lang }: { lang: Lang }) {
             <h2 className="h-section">{t.projects.title}</h2>
             <p className="lead">{t.projects.subtitle}</p>
             <div className="cards">
-              {t.projects.items.map((p, i) => (
-                <button
-                  type="button"
-                  className="card card-clickable"
+              {t.projects.items.map((p) => (
+                <ProjectCard
                   key={p.n}
-                  onClick={() => setOpenProject(i)}
-                >
-                  <div className="card-cover">
-                    {p.cover ? (
-                      <img src={p.cover} alt={p.title} />
-                    ) : (
-                      <div className="card-cover-empty" />
-                    )}
-                    <span className="card-badge">{p.n}</span>
-                  </div>
-                  <div className="card-body">
-                    <h3 className="card-title">{p.title}</h3>
-                    <p className="card-desc">{p.desc}</p>
-                    <div className="tech-row">
-                      {p.tech.map((tech) => (
-                        <span className="tech" key={tech}>
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="card-cta">
-                      {t.projects.detailsCta}
-                      <span className="card-cta-arrow">→</span>
-                    </span>
-                  </div>
-                </button>
+                  p={p}
+                  cta={t.projects.detailsCta}
+                  onOpen={() => setOp(p)}
+                />
+              ))}
+            </div>
+
+            <div className="games-card">
+              <div className="games-card-main">
+                <span className="games-icon">
+                  <GamepadIcon size={26} />
+                </span>
+                <div className="games-text">
+                  <h3 className="games-title">{t.projects.games.title}</h3>
+                  <p className="games-subtitle">{t.projects.games.subtitle}</p>
+                </div>
+              </div>
+              <div className="games-links">
+                <a href={LINKS.itch} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                  <GamepadIcon />
+                  {t.projects.games.itchLabel}
+                </a>
+                <a href={LINKS.vimeo} target="_blank" rel="noreferrer" className="btn btn-ghost">
+                  <VideoIcon />
+                  {t.projects.games.portfolioLabel}
+                </a>
+              </div>
+            </div>
+
+            <div className="cards games-grid">
+              {t.projects.games.items.map((p) => (
+                <ProjectCard
+                  key={p.n}
+                  p={p}
+                  cta={t.projects.detailsCta}
+                  onOpen={() => setOp(p)}
+                />
               ))}
             </div>
           </section>
@@ -422,7 +470,7 @@ function App({ lang }: { lang: Lang }) {
       </main>
 
       {op && (
-        <div className="modal-overlay" onClick={() => setOpenProject(null)}>
+        <div className="modal-overlay" onClick={() => setOp(null)}>
           <div
             className="modal"
             role="dialog"
@@ -434,7 +482,7 @@ function App({ lang }: { lang: Lang }) {
               type="button"
               className="modal-close"
               aria-label={isES ? 'Cerrar' : 'Close'}
-              onClick={() => setOpenProject(null)}
+              onClick={() => setOp(null)}
             >
               <CloseIcon />
             </button>

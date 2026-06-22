@@ -31,7 +31,24 @@ export interface Translation {
     subtitle: string
     demo: string
     code: string
-    items: { n: string; title: string; desc: string; tech: string[] }[]
+    project: string
+    detailsCta: string
+    aboutLabel: string
+    featuresLabel: string
+    galleryLabel: string
+    videoLabel: string
+    items: {
+      n: string
+      title: string
+      desc: string
+      tech: string[]
+      cover?: string
+      gallery?: string[]
+      video?: string
+      longDesc?: string
+      features?: string[]
+      links?: { demo?: string; code?: string; project?: string }
+    }[]
   }
   skills: {
     eyebrow: string
@@ -55,9 +72,25 @@ export interface Translation {
     cvLabel: string
     connect: string
   }
+  cv: { es: string; en: string }
 }
 
-export const EMAIL = 'raul.junquera.abellan@cieep.com'
+export const CV_FILES = {
+  es: '/docs/curriculum_raul_junquera_es.pdf',
+  en: '/docs/curriculum_raul_junquera_en.pdf',
+} as const
+
+// Single source of truth for external links — change once, applies to ES and EN.
+export const LINKS = {
+  github: 'https://github.com/Naiitder',
+  linkedin: 'https://www.linkedin.com/in/raul-junquera-abellan/',
+  email: 'raul.junquera.abellan@cieep.com',
+} as const
+
+// Single source of truth for assets/images — change once, applies to ES and EN.
+export const ASSETS = {
+  photo: '/images/portrait-photo.PNG',
+} as const
 
 export const translations: Record<Lang, Translation> = {
   es: {
@@ -96,33 +129,33 @@ export const translations: Record<Lang, Translation> = {
       eyebrow: 'Portfolio',
       title: 'Proyectos destacados',
       subtitle:
-        'Una selección de aplicaciones que he construido. Los enlaces son de ejemplo — sustitúyelos por los tuyos.',
-      demo: 'Demo',
-      code: 'Código',
+        'Una selección de aplicaciones que he construido. Pulsa una tarjeta para ver más detalles.',
+      demo: 'Ver demo',
+      code: 'Ver código',
+      project: 'Ir al proyecto',
+      detailsCta: 'Ver detalles',
+      aboutLabel: 'Sobre el proyecto',
+      featuresLabel: 'Características',
+      galleryLabel: 'Galería',
+      videoLabel: 'Vídeo',
       items: [
         {
           n: '01',
-          title: 'TaskFlow',
-          desc: 'Gestor de tareas colaborativo en tiempo real con tableros, etiquetas y notificaciones. Sincronización instantánea entre usuarios.',
-          tech: ['React', 'TypeScript', 'Node.js', 'Supabase'],
-        },
-        {
-          n: '02',
-          title: 'FinTrack',
-          desc: 'App móvil de finanzas personales para registrar gastos, visualizar presupuestos y analizar hábitos con gráficos claros.',
-          tech: ['Flutter', 'Dart', 'Supabase'],
-        },
-        {
-          n: '03',
-          title: 'DevConnect',
-          desc: 'Red social para desarrolladores: perfiles, feed de proyectos y mensajería. Autenticación y API REST propias.',
-          tech: ['React', 'Node.js', 'PostgreSQL'],
-        },
-        {
-          n: '04',
-          title: 'ShopWave',
-          desc: 'Tienda online completa con carrito, pasarela de pago y panel de administración para gestionar productos y pedidos.',
-          tech: ['React', 'Node.js', 'Stripe'],
+          title: 'Carpentry project',
+          desc: 'Configurador de muebles 3D en tiempo real, que permite al usuario diseñar y modificar sus propios muebles, además de permitir la integración de la aplicación en tu tienda online y la conexión con software de terceros para enviar el mueble a fábrica.',
+          longDesc:
+            'Configurador de muebles 3D en tiempo real que permite al usuario diseñar y modificar sus propios muebles desde el navegador. La aplicación está pensada para integrarse en tu tienda online y conectarse con software de terceros para enviar el mueble directamente a fábrica.',
+          features: [
+            'Configuración de muebles en 3D en tiempo real',
+            'Diseño y modificación por parte del usuario',
+            'Integración embebida en tu tienda online',
+            'Conexión con software de terceros para envío a fábrica',
+          ],
+          tech: ['React', 'TypeScript', 'Node.js', 'Supabase', 'Babylon.js'],
+          cover: '/images/carpentry-project-BG.png',
+          links: {
+            project: 'https://ardis-wood3d.vercel.app/',
+          },
         },
       ],
     },
@@ -141,6 +174,7 @@ export const translations: Record<Lang, Translation> = {
         },
         { title: 'Datos y Cloud', items: ['Supabase', 'PostgreSQL', 'Firebase'] },
         { title: 'Herramientas', items: ['Git', 'Docker', 'Figma', 'Vite', 'VS Code'] },
+        { title: 'Motores gráficos', items: ['Unity', 'Unreal Engine', 'Godot'] },
       ],
     },
     experience: {
@@ -179,6 +213,7 @@ export const translations: Record<Lang, Translation> = {
       cvLabel: 'Descargar CV',
       connect: 'O encuéntrame en',
     },
+    cv: { es: 'Español', en: 'Inglés' },
   },
   en: {
     tabs: [
@@ -208,18 +243,41 @@ export const translations: Record<Lang, Translation> = {
       ],
       stats: [
         { num: '2+', label: 'Years of experience' },
-        { num: '15+', label: 'Projects completed' },
+        { num: '5+', label: 'Projects completed' },
         { num: '10+', label: 'Technologies mastered' },
       ],
     },
     projects: {
       eyebrow: 'Portfolio',
       title: 'Featured projects',
-      subtitle:
-        'A selection of apps I have built.',
-      demo: 'Demo',
-      code: 'Code',
+      subtitle: 'A selection of apps I have built. Tap a card to see more details.',
+      demo: 'View demo',
+      code: 'View code',
+      project: 'Go to project',
+      detailsCta: 'View details',
+      aboutLabel: 'About the project',
+      featuresLabel: 'Features',
+      galleryLabel: 'Gallery',
+      videoLabel: 'Video',
       items: [
+        {
+          n: '01',
+          title: 'Carpentry project',
+          desc: 'Real-time 3D furniture configurator that lets users design and customize their own furniture, supports embedding the app into your online store, and connects with third-party software to send the furniture to the factory.',
+          longDesc:
+            'Real-time 3D furniture configurator that lets users design and customize their own furniture right in the browser. The app is built to be embedded into your online store and to connect with third-party software to send the furniture directly to the factory.',
+          features: [
+            'Real-time 3D furniture configuration',
+            'User-driven design and customization',
+            'Embeddable into your online store',
+            'Integration with third-party software for factory orders',
+          ],
+          tech: ['React', 'TypeScript', 'Node.js', 'Supabase', 'Babylon.js'],
+          cover: '/images/carpentry-project-BG.png',
+          links: {
+            project: 'https://ardis-wood3d.vercel.app/',
+          },
+        },
       ],
     },
     skills: {
@@ -237,6 +295,7 @@ export const translations: Record<Lang, Translation> = {
         },
         { title: 'Data & Cloud', items: ['Supabase', 'PostgreSQL', 'Firebase'] },
         { title: 'Tools', items: ['Git', 'Docker', 'Figma', 'Vite', 'VS Code'] },
+        { title: 'Game Engines', items: ['Unity', 'Unreal Engine', 'Godot'] },
       ],
     },
     experience: {
@@ -275,5 +334,6 @@ export const translations: Record<Lang, Translation> = {
       cvLabel: 'Download CV',
       connect: 'Or find me on',
     },
+    cv: { es: 'Spanish', en: 'English' },
   },
 }

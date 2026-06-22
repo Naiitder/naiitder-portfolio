@@ -328,6 +328,44 @@ main {
   line-height: 1;
 }
 
+/* CV download menu */
+.cv-menu {
+  position: relative;
+  display: inline-block;
+}
+.cv-menu-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 100%;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 44px -18px var(--glow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: sectionIn 0.18s ease both;
+}
+.cv-menu-list a {
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.cv-menu-list a:hover {
+  background: var(--surface2);
+  color: var(--accent);
+}
+
 .social {
   display: inline-flex;
   align-items: center;
@@ -491,31 +529,79 @@ main {
 .card {
   position: relative;
   overflow: hidden;
-  padding: 26px;
   border-radius: 18px;
   background: var(--surface);
   border: 1px solid var(--border);
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+}
+.card-clickable {
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  color: inherit;
 }
 .card:hover {
   transform: translateY(-6px);
   border-color: var(--accent);
   box-shadow: 0 24px 60px -24px var(--glow);
 }
-.card-n {
+.card-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.card:hover .card-cover img {
+  transform: scale(1.05);
+}
+.card-cover-empty {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      circle at 30% 30%,
+      color-mix(in srgb, var(--accent3) 35%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 75% 70%,
+      color-mix(in srgb, var(--accent2) 30%, transparent),
+      transparent 55%
+    ),
+    var(--surface2);
+}
+.card-badge {
   position: absolute;
-  top: 8px;
-  right: 18px;
+  top: 10px;
+  left: 12px;
   font-family: var(--headFont), monospace;
-  font-size: 66px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--text);
-  opacity: 0.06;
-  line-height: 1;
+  color: #fff;
+  background: rgba(10, 9, 18, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px 9px;
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
   pointer-events: none;
+}
+.card-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  flex: 1;
 }
 .card-title {
   font-family: var(--headFont), monospace;
@@ -531,6 +617,23 @@ main {
   margin: 0;
   flex: 1;
   text-wrap: pretty;
+}
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 4px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.card-cta-arrow {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+.card:hover .card-cta-arrow {
+  transform: translateX(4px);
 }
 .tech-row {
   display: flex;
@@ -767,4 +870,170 @@ footer {
   font-size: 13px;
   border-top: 1px solid var(--border);
   margin-top: 10px;
+}
+
+/* Project detail modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(14px, 4vw, 56px);
+  background: rgba(6, 5, 12, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  overflow: auto;
+  animation: sectionIn 0.2s ease both;
+}
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.7);
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(10, 9, 18, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  transition: all 0.2s;
+}
+.modal-close:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.modal-cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  overflow: hidden;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.modal-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal-body {
+  padding: clamp(22px, 4vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.modal-n {
+  font-family: var(--headFont), monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+.modal-title {
+  font-family: var(--headFont), monospace;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 6px 0 0;
+  color: var(--text);
+}
+.modal-tech {
+  margin-top: 16px;
+}
+.modal-label {
+  font-family: var(--headFont), monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin: 0 0 14px;
+}
+.modal-about {
+  color: var(--text);
+  opacity: 0.86;
+  font-size: 15.5px;
+  line-height: 1.7;
+  margin: 0;
+  text-wrap: pretty;
+}
+.modal-features {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.modal-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  color: var(--text);
+  opacity: 0.9;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.modal-feature-icon {
+  flex: none;
+  margin-top: 1px;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid var(--border);
+}
+.modal-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.modal-shot {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+.modal-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal-video {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+.modal-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 2px;
 }

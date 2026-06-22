@@ -1,121 +1,338 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { translations, EMAIL, type Lang, type TabId } from './data'
 import './App.css'
 
+const GitHubIcon = ({ size = 20 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.7c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" />
+  </svg>
+)
+
+const LinkedInIcon = ({ size = 20 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.8 0 0 .77 0 1.73v20.54C0 23.23.8 24 1.77 24h20.45c.97 0 1.78-.77 1.78-1.73V1.73C24 .77 23.19 0 22.22 0z" />
+  </svg>
+)
+
+const MailIcon = ({ size = 20 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+    <rect x="2" y="4" width="20" height="16" rx="2" />
+    <path d="m2 7 10 6 10-6" />
+  </svg>
+)
+
+const FileIcon = ({ size = 17 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <path d="M14 2v6h6" />
+    <path d="M8 13h8M8 17h5" />
+  </svg>
+)
+
+const GlobeIcon = () => (
+  <svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18" />
+    <path d="M12 3a15 15 0 0 1 0 18" />
+    <path d="M12 3a15 15 0 0 0 0 18" />
+  </svg>
+)
+
+const ExternalIcon = () => (
+  <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <path d="M15 3h6v6M10 14 21 3" />
+  </svg>
+)
+
+const CodeIcon = () => (
+  <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="m16 18 6-6-6-6M8 6l-6 6 6 6" />
+  </svg>
+)
+
+const BriefcaseIcon = () => (
+  <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="7" width="20" height="14" rx="2" />
+    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+  </svg>
+)
+
+const GradCapIcon = () => (
+  <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 10 12 5 2 10l10 5 10-5z" />
+    <path d="M6 12v5c0 1 2.5 3 6 3s6-2 6-3v-5" />
+  </svg>
+)
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [lang, setLang] = useState<Lang>('es')
+  const [tab, setTab] = useState<TabId>('home')
+
+  const t = translations[lang]
+  const isES = lang === 'es'
+  const year = new Date().getFullYear()
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="app">
+      <div className="bg" aria-hidden="true">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+      </div>
+
+      <nav className="nav">
+        <div className="nav-brand">
+          <div className="nav-logo">RJ</div>
+          <span className="nav-name">Raúl Junquera</span>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+
+        <div className="nav-tabs">
+          {t.tabs.map((tb) => (
+            <button
+              key={tb.id}
+              className={tb.id === tab ? 'tab active' : 'tab'}
+              onClick={() => setTab(tb.id)}
+            >
+              {tb.label}
+            </button>
+          ))}
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
+
+        <button className="lang-btn" onClick={() => setLang(isES ? 'en' : 'es')}>
+          <GlobeIcon />
+          {isES ? 'EN' : 'ES'}
         </button>
-      </section>
+      </nav>
 
-      <div className="ticks"></div>
+      <main>
+        {tab === 'home' && (
+          <section className="section section-home">
+            <div className="hero-grid">
+              <div>
+                <div className="badge">
+                  <span className="dot" />
+                  {t.hero.available}
+                </div>
+                <div className="hero-greeting">{t.hero.greeting}</div>
+                <h1 className="hero-name">{t.hero.name}</h1>
+                <div className="hero-role">{t.hero.role}</div>
+                <p className="hero-tagline">{t.hero.tagline}</p>
+                <div className="hero-cta">
+                  <button className="btn btn-primary" onClick={() => setTab('projects')}>
+                    {t.hero.ctaProjects} <span className="btn-arrow">→</span>
+                  </button>
+                  <a href="/docs/curriculum_raul_junquera_en.pdf" className="btn btn-ghost">
+                    <FileIcon /> {t.hero.ctaCV}
+                  </a>
+                </div>
+                <div className="hero-socials">
+                  <a href="https://github.com/Naiitder" aria-label="GitHub" className="social">
+                    <GitHubIcon />
+                  </a>
+                  <a href="https://www.linkedin.com/in/raul-junquera-abellan/" aria-label="LinkedIn" className="social">
+                    <LinkedInIcon />
+                  </a>
+                  <a href={`mailto:${EMAIL}`} aria-label="Email" className="social">
+                    <MailIcon />
+                  </a>
+                </div>
+              </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+              <div className="avatar-wrap">
+                <div className="avatar">
+                  <div className="avatar-ring" />
+                  <div className="avatar-frame">
+                    <div className="avatar-photo">
+                      <img
+                        src="/images/IMG_4566.PNG"
+                      />
+                    </div>
+                  </div>
+                  <div className="avatar-chip avatar-chip-1">
+                    <span />
+                    React
+                  </div>
+                  <div className="avatar-chip avatar-chip-2">
+                    <span />
+                    Flutter
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        {tab === 'about' && (
+          <section className="section section-about">
+            <div className="eyebrow">
+              <span />
+              {t.about.eyebrow}
+            </div>
+            <h2 className="h-section">{t.about.title}</h2>
+            <div className="about-paras">
+              {t.about.paragraphs.map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
+            </div>
+            <div className="stats">
+              {t.about.stats.map((stat, i) => (
+                <div className="stat" key={i}>
+                  <div className="stat-num">{stat.num}</div>
+                  <div className="stat-label">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {tab === 'projects' && (
+          <section className="section section-projects">
+            <div className="eyebrow">
+              <span />
+              {t.projects.eyebrow}
+            </div>
+            <h2 className="h-section">{t.projects.title}</h2>
+            <p className="lead">{t.projects.subtitle}</p>
+            <div className="cards">
+              {t.projects.items.map((p) => (
+                <div className="card" key={p.n}>
+                  <div className="card-n">{p.n}</div>
+                  <h3 className="card-title">{p.title}</h3>
+                  <p className="card-desc">{p.desc}</p>
+                  <div className="tech-row">
+                    {p.tech.map((tech) => (
+                      <span className="tech" key={tech}>
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="card-links">
+                    <a href="#" className="card-link">
+                      <ExternalIcon />
+                      {t.projects.demo}
+                    </a>
+                    <a href="#" className="card-link">
+                      <CodeIcon />
+                      {t.projects.code}
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {tab === 'skills' && (
+          <section className="section section-skills">
+            <div className="eyebrow">
+              <span />
+              {t.skills.eyebrow}
+            </div>
+            <h2 className="h-section">{t.skills.title}</h2>
+            <p className="lead">{t.skills.subtitle}</p>
+            <div className="skill-groups">
+              {t.skills.groups.map((g) => (
+                <div className="skill-group" key={g.title}>
+                  <div className="skill-group-head">
+                    <span />
+                    <h3>{g.title}</h3>
+                  </div>
+                  <div className="chips">
+                    {g.items.map((s) => (
+                      <span className="chip" key={s}>
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {tab === 'experience' && (
+          <section className="section section-experience">
+            <div className="eyebrow">
+              <span />
+              {t.experience.eyebrow}
+            </div>
+            <h2 className="h-section">{t.experience.title}</h2>
+
+            <div className="xp-group-head">
+              <span className="xp-icon xp-icon-work">
+                <BriefcaseIcon />
+              </span>
+              <h3>{t.experience.workLabel}</h3>
+            </div>
+            <div className="timeline">
+              {t.experience.work.map((ex, i) => (
+                <div className="tl-item" key={i}>
+                  <div className="tl-dot" />
+                  <div className="tl-year">{ex.year}</div>
+                  <div className="tl-role">{ex.role}</div>
+                  <div className="tl-company">{ex.company}</div>
+                  <div className="tl-desc">{ex.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="xp-group-head xp-group-head-edu">
+              <span className="xp-icon xp-icon-edu">
+                <GradCapIcon />
+              </span>
+              <h3>{t.experience.eduLabel}</h3>
+            </div>
+            <div className="timeline timeline-edu">
+              {t.experience.education.map((ed, i) => (
+                <div className="tl-item" key={i}>
+                  <div className="tl-dot tl-dot-edu" />
+                  <div className="tl-year tl-year-edu">{ed.year}</div>
+                  <div className="tl-role">{ed.role}</div>
+                  <div className="tl-company">{ed.company}</div>
+                  <div className="tl-desc">{ed.desc}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {tab === 'contact' && (
+          <section className="section section-contact">
+            <div className="eyebrow">
+              <span />
+              {t.contact.eyebrow}
+            </div>
+            <h2 className="h-contact">{t.contact.title}</h2>
+            <p className="contact-lead">{t.contact.lead}</p>
+            <div className="contact-actions">
+              <a href={`mailto:${EMAIL}`} className="btn btn-primary btn-primary-lg">
+                <MailIcon size={19} />
+                {t.contact.emailLabel}
+              </a>
+              <a href="/docs/curriculum_raul_junquera_en.pdf" className="btn btn-ghost">
+                <FileIcon />
+                {t.contact.cvLabel}
+              </a>
+            </div>
+            <div className="contact-connect">{t.contact.connect}</div>
+            <div className="contact-socials">
+              <a href="https://github.com/Naiitder" aria-label="GitHub" className="social social-lg">
+                <GitHubIcon size={22} />
+              </a>
+              <a href="https://www.linkedin.com/in/raul-junquera-abellan/" aria-label="LinkedIn" className="social social-lg">
+                <LinkedInIcon size={22} />
+              </a>
+              <a href={`mailto:${EMAIL}`} aria-label="Email" className="social social-lg">
+                <MailIcon size={22} />
+              </a>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <footer>© {year} Raúl Junquera Abellán</footer>
+    </div>
   )
 }
 

@@ -238,11 +238,21 @@ export const translations: Record<Lang, Translation> = {
       groups: [
         {
           title: 'Frontend',
-          items: ['React', 'TypeScript', 'JavaScript', 'Flutter', 'HTML & CSS', 'Tailwind'],
+          items: ['React', 'TypeScript', 'JavaScript', 'Flutter', 'HTML & CSS', 'Tailwind', 'Three.js',
+            'Babylon.js'],
         },
         {
           title: 'Backend',
           items: ['Node.js', 'Express', 'APIs REST', 'Autenticación'],
+        },
+        {
+          title: 'Lenguajes de programación',
+          items: [
+            'C++',
+            'Python',
+            'C#',
+            'Java'
+          ],
         },
         { title: 'Datos y Cloud', items: ['Supabase', 'PostgreSQL', 'Firebase'] },
         { title: 'Herramientas', items: ['Git', 'Docker', 'Figma', 'Vite', 'VS Code'] },
@@ -420,11 +430,21 @@ export const translations: Record<Lang, Translation> = {
       groups: [
         {
           title: 'Frontend',
-          items: ['React', 'TypeScript', 'JavaScript', 'Flutter', 'HTML & CSS', 'Tailwind'],
+          items: ['React', 'TypeScript', 'JavaScript', 'Flutter', 'HTML & CSS', 'Tailwind', 'Three.js',
+            'Babylon.js'],
         },
         {
           title: 'Backend',
           items: ['Node.js', 'Express', 'REST APIs', 'Authentication'],
+        },
+        {
+          title: 'Programming Languages',
+          items: [
+            'C++',
+            'Python',
+            'C#',
+            'Java'
+          ],
         },
         { title: 'Data & Cloud', items: ['Supabase', 'PostgreSQL', 'Firebase'] },
         { title: 'Tools', items: ['Git', 'Docker', 'Figma', 'Vite', 'VS Code'] },
